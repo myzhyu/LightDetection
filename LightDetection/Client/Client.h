@@ -12,4 +12,22 @@ public:
 
 private:
     Ui::ClientClass ui;
+    std::string m_strServerIP;
+    int m_iPort;
+    bool m_bLightOn;
+    bool m_bLightOffline;
+    int m_iVoltage;
+    double m_dCurrent;
+
+private slots:
+    void radioButton_LightOn_slot();
+    void radioButton_LightOff_slot();
+    void radioButton_OfflineYes_slot();
+    void radioButton_OfflineNo_slot();
+    void pushButton_Login_slot();
+    void spinBox_Voltage_slot(int iVoltage);
+    void doubleSpinBox_Current_slot(double dCurrent);
 };
+
+
+
