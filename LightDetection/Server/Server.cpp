@@ -7,10 +7,10 @@ Server::Server(QWidget *parent)
     ui.setupUi(this);
     m_iPort = 80;
 
-    connect(ui.pushButton_start, SIGNAL(clicked()), this, SLOT(button_start_slot()));
+    connect(ui.pushButton_start, SIGNAL(clicked()), this, SLOT(pushButton_start_slot()));
 }
 
-void Server::button_start_slot()
+void Server::pushButton_start_slot()
 {
     QString strPort = ui.lineEdit_port->text();
     m_iPort = strPort.toInt();

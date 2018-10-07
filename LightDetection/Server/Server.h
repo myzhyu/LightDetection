@@ -15,5 +15,5 @@ private:
     int m_iPort; // ¼ÇÂ¼¶Ë¿ÚºÅ
 
 private slots:
-    void button_start_slot();
+    void pushButton_start_slot();
 };
