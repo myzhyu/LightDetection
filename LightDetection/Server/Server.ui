@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>755</width>
-    <height>786</height>
+    <height>524</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,6 +41,9 @@
          <font>
           <pointsize>12</pointsize>
          </font>
+        </property>
+        <property name="inputMethodHints">
+         <set>Qt::ImhPreferNumbers</set>
         </property>
         <property name="text">
          <string>80</string>

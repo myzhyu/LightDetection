@@ -12,4 +12,8 @@ public:
 
 private:
     Ui::ServerClass ui;
+    int m_iPort; // ¼ÇÂ¼¶Ë¿ÚºÅ
+
+private slots:
+    void button_start_slot();
 };
