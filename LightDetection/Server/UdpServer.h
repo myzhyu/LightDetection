@@ -16,5 +16,6 @@ private:
     SOCKET m_sock;
     SOCKADDR_IN m_serverAddr; // 服务器地址信息
     bool m_bInitSuccess;
+    struct timeval m_timeout; // 设置消息接收超时时间
 };
 

@@ -18,9 +18,18 @@ UdpServer::UdpServer(int iPort)
     {
         m_bInitSuccess = false;
     }
+    // 设置1us超时时间
+    m_timeout.tv_sec = 0;
+    m_timeout.tv_usec = 1;
+    int iTimeout = 1;
+    if (setsockopt(m_sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&iTimeout, sizeof(int)) == -1)
+    {
+        m_bInitSuccess = false;
+    }
     m_serverAddr.sin_family = AF_INET;
     m_serverAddr.sin_port = htons(m_iPort);
     m_serverAddr.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
+    
 }
 
 

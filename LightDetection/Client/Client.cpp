@@ -10,6 +10,7 @@ Client::Client(QWidget *parent)
     m_bLightOffline = false;
     m_iVoltage = 220;
     m_dCurrent = 2;
+    m_iID = 0;
 
     connect(ui.radioButton_LightOn, SIGNAL(clicked()), this, SLOT(radioButton_LightOn_slot()));
     connect(ui.radioButton_LightOff, SIGNAL(clicked()), this, SLOT(radioButton_LightOff_slot()));
@@ -46,6 +47,8 @@ void Client::radioButton_OfflineNo_slot()
 
 void Client::pushButton_Login_slot()
 {
+    m_iID = ui.lineEdit_id->text().toInt();
+    m_iPort = ui.lineEdit_serverPort->text().toInt();
     ui.statusBar->showMessage(u8"µÇÂ½");
 }
 

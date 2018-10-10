@@ -18,6 +18,7 @@ private:
     bool m_bLightOffline;
     int m_iVoltage;
     double m_dCurrent;
+    int m_iID;
 
 private slots:
     void radioButton_LightOn_slot();
