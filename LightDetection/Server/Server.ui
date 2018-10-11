@@ -101,7 +101,7 @@
            </font>
           </property>
           <property name="text">
-           <string>在线客户端</string>
+           <string>客户端状态</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -148,17 +148,17 @@
          <widget class="QTableWidget" name="tableWidget">
           <column>
            <property name="text">
-            <string>src</string>
+            <string>ID</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>dst</string>
+            <string>IP</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>text</string>
+            <string>Message</string>
            </property>
           </column>
          </widget>
