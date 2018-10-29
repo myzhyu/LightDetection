@@ -7,6 +7,7 @@ Server::Server(QWidget *parent)
     ui.setupUi(this);
     m_iPort = 80;
     m_pQTimerReceive = new QTimer(this); 
+    m_iMessageCount = 0;
 
     connect(ui.pushButton_start, SIGNAL(clicked()), this, SLOT(pushButton_start_slot()));
     connect(m_pQTimerReceive, SIGNAL(timeout()), this, SLOT(QTimerRecv_slot()));
@@ -48,6 +49,9 @@ void Server::QTimerRecv_slot()
     int iMessageLength = m_sock.getMessage(ClientIP, Message);
     if (iMessageLength > 0)
     {
-        ;
+        ui.tableWidget_packageShow->insertRow(m_iMessageCount);
+        ui.tableWidget_packageShow->setItem(m_iMessageCount, 1, new QTableWidgetItem(ClientIP));
+        ui.tableWidget_packageShow->setItem(m_iMessageCount, 2, new QTableWidgetItem(Message));
+        m_iMessageCount++;
     }
 }

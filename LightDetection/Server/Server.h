@@ -18,6 +18,7 @@ private:
     int m_iPort; // 记录端口号
     UdpServer m_sock;
     QTimer *m_pQTimerReceive; // 定时器
+    int m_iMessageCount; // 记录消息条数
 
 private slots:
     void pushButton_start_slot();
