@@ -11,12 +11,14 @@ UdpServer::UdpServer(int iPort)
     if (WSAStartup(MAKEWORD(2, 2), &m_wsa) != 0)
     {
         m_bInitSuccess = false;
+        // return;
     }
     // 建立一个UDP的socket
     m_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
     if (m_sock == SOCKET_ERROR)
     {
         m_bInitSuccess = false;
+        // return;
     }
     // 设置1us超时时间
     m_timeout.tv_sec = 0;
@@ -25,6 +27,7 @@ UdpServer::UdpServer(int iPort)
     if (setsockopt(m_sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&iTimeout, sizeof(int)) == -1)
     {
         m_bInitSuccess = false;
+        // return;
     }
     m_serverAddr.sin_family = AF_INET;
     m_serverAddr.sin_port = htons(m_iPort);
@@ -35,6 +38,10 @@ UdpServer::UdpServer(int iPort)
 
 UdpServer::~UdpServer()
 {
+    // 关闭SOCKET连接
+    // closesocket(m_sock);
+    // 清理网络环境
+    // WSACleanup();
 }
 
 

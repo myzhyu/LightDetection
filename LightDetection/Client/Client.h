@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_Client.h"
+#include "UdpClient.h"
 
 class Client : public QMainWindow
 {
@@ -19,6 +20,8 @@ private:
     int m_iVoltage;
     double m_dCurrent;
     int m_iID;
+    std::string m_strID;
+    UdpClient m_sock;
 
 private slots:
     void radioButton_LightOn_slot();

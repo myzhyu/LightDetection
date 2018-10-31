@@ -19,9 +19,11 @@ private:
     UdpServer m_sock;
     QTimer *m_pQTimerReceive; // 定时器
     int m_iMessageCount; // 记录消息条数
+    int m_iClientNumber; // 记录客户端数目
 
 private slots:
     void pushButton_start_slot();
     void lineEdit_port_slot(QString strText);
     void QTimerRecv_slot();
+    void spinBox_clientNumber_slot(int iClient);
 };

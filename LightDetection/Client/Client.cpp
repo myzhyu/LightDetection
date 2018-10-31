@@ -5,7 +5,7 @@ Client::Client(QWidget *parent)
 {
     ui.setupUi(this);
     m_strServerIP = "127.0.0.1";
-    m_iPort = 80;
+    m_iPort = 8008;
     m_bLightOn = false;
     m_bLightOffline = false;
     m_iVoltage = 220;
@@ -48,8 +48,23 @@ void Client::radioButton_OfflineNo_slot()
 void Client::pushButton_Login_slot()
 {
     m_iID = ui.lineEdit_id->text().toInt();
+    m_strID = ui.lineEdit_id->text().toStdString();
     m_iPort = ui.lineEdit_serverPort->text().toInt();
-    ui.statusBar->showMessage(u8"µÇÂ½");
+    m_strServerIP = ui.lineEdit_serverIP->text().toStdString();
+    m_sock = UdpClient(m_strServerIP, m_iPort);
+    int iSentRetval = m_sock.sentMessage(m_strID + "Login");
+    if (iSentRetval == 1)
+    {
+        ui.statusBar->showMessage(u8"init fail");
+    }
+    else if (iSentRetval == 2)
+    {
+        ui.statusBar->showMessage(u8"send fail");
+    }
+    else
+    {
+        ui.statusBar->showMessage(u8"µÇÂ½");
+    }
 }
 
 void Client::spinBox_Voltage_slot(int iVoltage)
