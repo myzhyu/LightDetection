@@ -9,7 +9,7 @@ class UdpClient
 public:
     UdpClient(std::string strIP = "127.0.0.1", int iPort = 8008);
     ~UdpClient();
-    int sentMessage(std::string strMessage);
+    int sentMessage(char strMessage[105]);
 
 private:
     std::string m_strIP;

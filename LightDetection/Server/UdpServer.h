@@ -9,7 +9,7 @@ public:
     UdpServer(int iPort=8008);
     ~UdpServer();
     bool startBind(); // 开始监听
-    int getMessage(char *pClientIP, char *pMessage); // 获取接收的IP及消息
+    int getMessage(char strClientIP[20], char strMessage[105]); // 获取接收的IP及消息
 private:
     int m_iPort; // 端口号
     WSADATA m_wsa;

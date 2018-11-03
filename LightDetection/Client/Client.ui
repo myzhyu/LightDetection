@@ -51,6 +51,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>（0-99）</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer_2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -299,6 +306,11 @@
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
            <widget class="QLabel" name="label_7">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>电压：</string>
             </property>

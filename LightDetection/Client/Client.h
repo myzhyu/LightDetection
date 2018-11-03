@@ -12,6 +12,8 @@ public:
     Client(QWidget *parent = Q_NULLPTR);
 
 private:
+    void getID();
+
     Ui::ClientClass ui;
     std::string m_strServerIP;
     int m_iPort;
@@ -19,8 +21,7 @@ private:
     bool m_bLightOffline;
     int m_iVoltage;
     double m_dCurrent;
-    int m_iID;
-    std::string m_strID;
+    char m_cID[3] = { 0 };
     UdpClient m_sock;
 
 private slots:

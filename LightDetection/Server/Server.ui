@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>755</width>
-    <height>524</height>
+    <width>984</width>
+    <height>538</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -125,7 +125,7 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,1">
       <property name="topMargin">
        <number>0</number>
       </property>
@@ -169,7 +169,22 @@
           </column>
           <column>
            <property name="text">
-            <string>当前状态</string>
+            <string>网络状态</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>开关状态</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>运行电压</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>运行电流</string>
            </property>
           </column>
          </widget>
@@ -226,7 +241,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>755</width>
+     <width>984</width>
      <height>23</height>
     </rect>
    </property>

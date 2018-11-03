@@ -35,13 +35,13 @@ UdpClient::~UdpClient()
     // WSACleanup();
 }
 
-int UdpClient::sentMessage(std::string strMessage)
+int UdpClient::sentMessage(char strMessage[105])
 {
     if (m_bInitSuccess == false) // init fail
     {
         return 1;
     }
-    int iSentData = sendto(m_sock, strMessage.c_str(), strMessage.size(), 0, (SOCKADDR*)&m_serverAddr, sizeof(m_serverAddr));
+    int iSentData = sendto(m_sock, strMessage, strlen(strMessage), 0, (SOCKADDR*)&m_serverAddr, sizeof(m_serverAddr));
     if (iSentData == 0) // send fail
     {
         return 2;
