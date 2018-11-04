@@ -157,6 +157,9 @@
         </item>
         <item>
          <widget class="QTableWidget" name="tableWidget_clientStates">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
           <column>
            <property name="text">
             <string>ID</string>
@@ -213,6 +216,9 @@
         </item>
         <item>
          <widget class="QTableWidget" name="tableWidget_packageShow">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
           <column>
            <property name="text">
             <string>ID</string>
