@@ -10,6 +10,7 @@ public:
     UdpClient(std::string strIP = "127.0.0.1", int iPort = 8008);
     ~UdpClient();
     int sentMessage(char strMessage[105]);
+    void setIsOffline(bool bIsOffline);
 
 private:
     std::string m_strIP;
@@ -19,5 +20,6 @@ private:
     bool m_bInitSuccess;
     SOCKET m_sock;
     SOCKADDR_IN m_serverAddr; // 服务器地址信息
+    bool m_bIsOffline;
 };
 

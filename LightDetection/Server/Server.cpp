@@ -7,12 +7,14 @@ Server::Server(QWidget *parent)
     ui.setupUi(this);
     m_iPort = 8008;
     m_pQTimerReceive = new QTimer(this); 
+    m_pQTimerHeartbeat = new QTimer(this);
     m_iMessageCount = 0;
     m_iClientNumber = 10;
     spinBox_clientNumber_slot(m_iClientNumber);
 
     connect(ui.pushButton_start, SIGNAL(clicked()), this, SLOT(pushButton_start_slot()));
-    connect(m_pQTimerReceive, SIGNAL(timeout()), this, SLOT(QTimerRecv_slot()));
+    connect(m_pQTimerReceive, SIGNAL(timeout()), this, SLOT(QTimerReceive_slot()));
+    connect(m_pQTimerHeartbeat, SIGNAL(timeout()), this, SLOT(QTimerHeartbeat_slot()));
     connect(ui.spinBox_clientNumber, SIGNAL(valueChanged(int)), this, SLOT(spinBox_clientNumber_slot(int)));
     // connect(ui.lineEdit_port, SIGNAL(textChanged(QString)), this, SLOT(lineEdit_port_slot(QString)));
 }
@@ -34,6 +36,7 @@ void Server::pushButton_start_slot()
         return;
     }
     m_pQTimerReceive->start(50); // 定时器启动，间隔50ms
+    m_pQTimerHeartbeat->start(1000);
     disconnect(ui.spinBox_clientNumber, 0, 0, 0); // 开始监听以后禁止修改客户端数目
     ui.statusBar->showMessage(u8"服务端启动，监听端口:" + strPort);
     
@@ -50,7 +53,7 @@ void Server::lineEdit_port_slot(QString strText)
     // ui.statusBar->showMessage(u8"监听端口已改为：" + QString::number(m_iPort));
 }
 
-void Server::QTimerRecv_slot()
+void Server::QTimerReceive_slot()
 {
     char ClientIP[20] = { 0 };
     char Message[105] = { 0 };
@@ -68,7 +71,10 @@ void Server::QTimerRecv_slot()
         cID[0] = Message[0];
         cID[1] = Message[1];
         cID[2] = '\0';
+        ui.tableWidget_packageShow->setItem(m_iMessageCount, 0, new QTableWidgetItem(cID));
         int iID = atoi(cID);
+        char cVoltage[4] = { 0 };
+        char cCurrent[6] = { 0 };
         switch (Message[3])
         {
         case 'L':
@@ -80,12 +86,30 @@ void Server::QTimerRecv_slot()
             break;
 
         case 'S':
+            if (Message[11] == 'n')
+            {
+                m_mLightsStatus[iID].setIsSwitchOn(true);
+            }
+            else
+            {
+                m_mLightsStatus[iID].setIsSwitchOn(false);
+            }
             break;
 
         case 'V':
+            cVoltage[0] = Message[11];
+            cVoltage[1] = Message[12];
+            cVoltage[2] = Message[13];
+            m_mLightsStatus[iID].setVoltage(atoi(cVoltage));
             break;
 
         case 'C':
+            cCurrent[0] = Message[11];
+            cCurrent[1] = Message[12];
+            cCurrent[2] = Message[13];
+            cCurrent[3] = Message[14];
+            cCurrent[4] = Message[15];
+            m_mLightsStatus[iID].setCurrent(atof(cCurrent));
             break;
         }
 
@@ -123,6 +147,22 @@ void Server::QTimerRecv_slot()
         }
 
         m_iMessageCount++;
+    }
+}
+
+void Server::QTimerHeartbeat_slot()
+{
+    for (int i = 0; i < m_iClientNumber; ++i)
+    {
+        m_mLightsStatus[i].setLostHeartbeat();
+        if (m_mLightsStatus[i].getIsOnline())
+        {
+            ui.tableWidget_clientStates->setItem(i, 2, new QTableWidgetItem("Online"));
+        }
+        else
+        {
+            ui.tableWidget_clientStates->setItem(i, 2, new QTableWidgetItem("Offline"));
+        }
     }
 }
 

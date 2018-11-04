@@ -7,6 +7,7 @@ UdpClient::UdpClient(std::string strIP, int iPort)
     m_strIP = strIP;
     m_iPort = iPort;
     m_bInitSuccess = true;
+    m_bIsOffline = false;
     if (WSAStartup(MAKEWORD(2, 2), &m_wsa) != 0)
     {
         // WSAStartup failed
@@ -41,10 +42,19 @@ int UdpClient::sentMessage(char strMessage[105])
     {
         return 1;
     }
+    if (m_bIsOffline)
+    {
+        return 3;
+    }
     int iSentData = sendto(m_sock, strMessage, strlen(strMessage), 0, (SOCKADDR*)&m_serverAddr, sizeof(m_serverAddr));
     if (iSentData == 0) // send fail
     {
         return 2;
     }
     return 0;
+}
+
+void UdpClient::setIsOffline(bool bIsOffline)
+{
+    m_bIsOffline = bIsOffline;
 }

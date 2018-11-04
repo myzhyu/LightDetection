@@ -1,4 +1,5 @@
 #include "Client.h"
+#include <string>
 
 Client::Client(QWidget *parent)
     : QMainWindow(parent)
@@ -11,6 +12,7 @@ Client::Client(QWidget *parent)
     m_iVoltage = 220;
     m_dCurrent = 2;
     m_cID[0] = '0';
+    m_pQTimerHeartbeat = new QTimer(this);
 
     connect(ui.radioButton_LightOn, SIGNAL(clicked()), this, SLOT(radioButton_LightOn_slot()));
     connect(ui.radioButton_LightOff, SIGNAL(clicked()), this, SLOT(radioButton_LightOff_slot()));
@@ -19,6 +21,12 @@ Client::Client(QWidget *parent)
     connect(ui.pushButton_Login, SIGNAL(clicked()), this, SLOT(pushButton_Login_slot()));
     connect(ui.spinBox_Voltage, SIGNAL(valueChanged(int)), this, SLOT(spinBox_Voltage_slot(int)));
     connect(ui.doubleSpinBox_Current, SIGNAL(valueChanged(double)), this, SLOT(doubleSpinBox_Current_slot(double)));
+    connect(m_pQTimerHeartbeat, SIGNAL(timeout()), this, SLOT(QTimerHeartbeat_slot()));
+}
+
+Client::~Client()
+{
+    delete m_pQTimerHeartbeat;
 }
 
 void Client::getID()
@@ -91,14 +99,14 @@ void Client::radioButton_OfflineYes_slot()
 {
     ui.radioButton_OfflineNo->setChecked(false);
     m_bLightOffline = true;
-    getID();
+    m_sock.setIsOffline(m_bLightOffline);
 }
 
 void Client::radioButton_OfflineNo_slot()
 {
     ui.radioButton_OfflineYes->setChecked(false);
     m_bLightOffline = false;
-    getID();
+    m_sock.setIsOffline(m_bLightOffline);
 }
 
 void Client::pushButton_Login_slot()
@@ -107,6 +115,7 @@ void Client::pushButton_Login_slot()
     m_iPort = ui.lineEdit_serverPort->text().toInt();
     m_strServerIP = ui.lineEdit_serverIP->text().toStdString();
     m_sock = UdpClient(m_strServerIP, m_iPort);
+    m_sock.setIsOffline(m_bLightOffline);
     char buf[100] = { 0 };
     strcpy(buf, m_cID);
     strcat(buf, "-Login");
@@ -114,24 +123,50 @@ void Client::pushButton_Login_slot()
     if (iSentRetval == 1)
     {
         ui.statusBar->showMessage(u8"init fail");
+        return;
     }
     else if (iSentRetval == 2)
     {
         ui.statusBar->showMessage(u8"send fail");
+        return;
     }
     else
     {
         ui.statusBar->showMessage(u8"µÇÂ½");
+        spinBox_Voltage_slot();
+        doubleSpinBox_Current_slot();
+        if (m_bLightOn)
+        {
+            radioButton_LightOn_slot();
+        }
+        else
+        {
+            radioButton_LightOff_slot();
+        }
     }
+    m_pQTimerHeartbeat->start(1000);
 }
 
 void Client::spinBox_Voltage_slot(int iVoltage)
 {
+    iVoltage = ui.spinBox_Voltage->value();
     m_iVoltage = iVoltage;
+    char cVoltage[4] = { 0 };
+    if (m_iVoltage < 100)
+    {
+        cVoltage[0] = '0';
+    }
+    if (m_iVoltage < 10)
+    {
+        cVoltage[1] = '0';
+    }
+    strcat(cVoltage, ui.spinBox_Voltage->text().toStdString().c_str());
+
     getID();
     char buf[100] = { 0 };
     strcpy(buf, m_cID);
-    strcat(buf, "-Voltag");
+    strcat(buf, "-Voltage-");
+    strcat(buf, cVoltage);
     int iSentRetval = m_sock.sentMessage(buf);
     if (iSentRetval == 1)
     {
@@ -143,18 +178,26 @@ void Client::spinBox_Voltage_slot(int iVoltage)
     }
     else
     {
-        ui.statusBar->showMessage(u8"Voltag");
+        ui.statusBar->showMessage(u8"Voltage");
     }
     // ui.statusBar->showMessage(QString::number(iVoltage));
 }
 
 void Client::doubleSpinBox_Current_slot(double dCurrent)
 {
+    dCurrent = ui.doubleSpinBox_Current->value();
     m_dCurrent = dCurrent;
+    char cCurrent[6] = { 0 };
+    if (m_dCurrent < 10)
+    {
+        cCurrent[0] = '0';
+    }
+    strcat(cCurrent, ui.doubleSpinBox_Current->text().toStdString().c_str());
     getID();
     char buf[100] = { 0 };
     strcpy(buf, m_cID);
-    strcat(buf, "-Curren");
+    strcat(buf, "-Current-");
+    strcat(buf, cCurrent);
     int iSentRetval = m_sock.sentMessage(buf);
     if (iSentRetval == 1)
     {
@@ -166,7 +209,28 @@ void Client::doubleSpinBox_Current_slot(double dCurrent)
     }
     else
     {
-        ui.statusBar->showMessage(u8"Curren");
+        ui.statusBar->showMessage(u8"Current");
     }
     // ui.statusBar->showMessage(QString::number(dCurrent));
+}
+
+void Client::QTimerHeartbeat_slot()
+{
+    getID();
+    char buf[100] = { 0 };
+    strcpy(buf, m_cID);
+    strcat(buf, "-Heartbeat");
+    int iSentRetval = m_sock.sentMessage(buf);
+    if (iSentRetval == 1)
+    {
+        ui.statusBar->showMessage(u8"init fail");
+    }
+    else if (iSentRetval == 2)
+    {
+        ui.statusBar->showMessage(u8"send fail");
+    }
+    else
+    {
+        ui.statusBar->showMessage(u8"Heartbeat");
+    }
 }
