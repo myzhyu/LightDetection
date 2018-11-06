@@ -48,6 +48,9 @@
         <property name="text">
          <string>0</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
        </widget>
       </item>
       <item>
@@ -96,6 +99,9 @@
         <property name="text">
          <string>127.0.0.1</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
        </widget>
       </item>
       <item>
@@ -122,6 +128,9 @@
         </property>
         <property name="text">
          <string>8008</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -323,6 +332,9 @@
               <pointsize>12</pointsize>
              </font>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
             <property name="maximum">
              <number>999</number>
             </property>
@@ -353,6 +365,9 @@
              <font>
               <pointsize>12</pointsize>
              </font>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
             <property name="maximum">
              <double>20.000000000000000</double>
