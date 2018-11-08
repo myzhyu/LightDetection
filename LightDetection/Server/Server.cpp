@@ -65,7 +65,7 @@ void Server::QTimerReceive_slot()
         ui.tableWidget_packageShow->insertRow(m_iMessageCount);
         ui.tableWidget_packageShow->setItem(m_iMessageCount, 1, new QTableWidgetItem(ClientIP));
         ui.tableWidget_packageShow->setItem(m_iMessageCount, 2, new QTableWidgetItem(Message));
-        ui.tableWidget_packageShow->scrollToBottom();
+        ui.tableWidget_packageShow->scrollToBottom(); // 信息流展示最新消息
         
         // 信息提取解析
         // ID
@@ -130,15 +130,12 @@ void Server::QTimerReceive_slot()
                 QTableWidgetItem *pItem = new QTableWidgetItem("Online");
                 pItem->setBackgroundColor(QColor(0, 255, 0));
                 ui.tableWidget_clientStates->setItem(i, 2, pItem);
-                // ui.tableWidget_clientStates->setItem(i, 2, new QTableWidgetItem("Online"));
-                // ui.tableWidget_clientStates->item(i, 2).setBackground(QBrush(QColor(255, 0, 0)));
             }
             else
             {
                 QTableWidgetItem *pItem = new QTableWidgetItem("Offline");
                 pItem->setBackgroundColor(QColor(255, 0, 0));
                 ui.tableWidget_clientStates->setItem(i, 2, pItem);
-                // ui.tableWidget_clientStates->setItem(i, 2, new QTableWidgetItem("Offline"));
             }
             // 显示客户端开关状态
             if (m_mLightsStatus[i].getIsSwitchOn())
@@ -146,14 +143,12 @@ void Server::QTimerReceive_slot()
                 QTableWidgetItem *pItem = new QTableWidgetItem("On");
                 pItem->setBackgroundColor(QColor(0, 255, 0));
                 ui.tableWidget_clientStates->setItem(i, 3, pItem);
-                //ui.tableWidget_clientStates->setItem(i, 3, new QTableWidgetItem("On"));
             }
             else
             {
                 QTableWidgetItem *pItem = new QTableWidgetItem("Off");
                 pItem->setBackgroundColor(QColor(255, 0, 0));
                 ui.tableWidget_clientStates->setItem(i, 3, pItem);
-                //ui.tableWidget_clientStates->setItem(i, 3, new QTableWidgetItem("Off"));
             }
             // 显示客户端运行电压
             ui.tableWidget_clientStates->setItem(i, 4, new QTableWidgetItem(QString::number(m_mLightsStatus[i].getVoltage())));
@@ -175,14 +170,12 @@ void Server::QTimerHeartbeat_slot()
             QTableWidgetItem *pItem = new QTableWidgetItem("Online");
             pItem->setBackgroundColor(QColor(0, 255, 0));
             ui.tableWidget_clientStates->setItem(i, 2, pItem);
-            //ui.tableWidget_clientStates->setItem(i, 2, new QTableWidgetItem("Online"));
         }
         else
         {
             QTableWidgetItem *pItem = new QTableWidgetItem("Offline");
             pItem->setBackgroundColor(QColor(255, 0, 0));
             ui.tableWidget_clientStates->setItem(i, 2, pItem);
-            //ui.tableWidget_clientStates->setItem(i, 2, new QTableWidgetItem("Offline"));
         }
     }
 }
